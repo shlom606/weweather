@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "727150632287",
+    "project_id": "weweather-99874",
+    "storage_bucket": "weweather-99874.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727150632287:android:bc02068d6f1671996d6aea",
+        "android_client_info": {
+          "package_name": "com.example.weweather"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2B568ea3K98hf9kenvn2u6xws58dsviU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
