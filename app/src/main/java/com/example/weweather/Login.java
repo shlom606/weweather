@@ -43,7 +43,7 @@ public class Login extends AppCompatActivity {
                 password= Epassword.getText().toString();
                 username = Eusername.getText().toString();
                 if(password.isEmpty() && username.isEmpty()){
-                    Toast.makeText(Login.this, "please put your information in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Please put your information in", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     ValueEventListener valueEventListener = new ValueEventListener() {
@@ -53,7 +53,7 @@ public class Login extends AppCompatActivity {
                             Susername= dataSnapshot.child("Users").child("username").child("username").getValue(String.class);
                             Spassword= dataSnapshot.child("Users").child("username").child("password").getValue(String.class);
                             if(Susername.equals(username) && Spassword.equals(password)){
-                                Toast.makeText(Login.this, "you have successfully loged in"+Susername+Spassword, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "You have successfully loged in "+Susername, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Login.this, ListDays.class);
                                 startActivity(intent);
                             }

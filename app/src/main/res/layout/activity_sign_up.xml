@@ -86,7 +86,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="62dp"
             android:backgroundTint="#FFEB3B"
-            android:text="sign up"
+            android:text="Sign up"
 
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"

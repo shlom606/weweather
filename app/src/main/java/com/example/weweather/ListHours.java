@@ -53,7 +53,7 @@ public class ListHours extends AppCompatActivity {
     private static final String API_KEY = "f0fda6ff26b54b21a8765838241704";  // Replaced with your WeatherAPI key
      String QUERY = "Rehovot";  // Example city
 
-
+    //googlemaps api key: AIzaSyCAIN8WUhbR2l9AtcXzykYKP46FemN4hk4
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     private LocationManager locationManager;
 
@@ -121,7 +121,7 @@ public class ListHours extends AppCompatActivity {
                 String[] conditionArray=conditionList.toArray(new String[0]);
                 String[] singleLine=new String[timeArray.length];
                 for (int i = 0; i < timeArray.length; i++) {
-                    singleLine[i]="time: "+timeArray[i]+", the temperature: "+temperatureArray[i]+",the condition: "+conditionArray[i];
+                    singleLine[i]="Time: "+timeArray[i]+", The temperature: "+temperatureArray[i]+",The condition: "+conditionArray[i];
                 }
 
                 runOnUiThread(new Runnable() {
@@ -145,11 +145,10 @@ public class ListHours extends AppCompatActivity {
 
             // Update UI with latitude and longitude
             QUERY=getCity(latitude,longitude);
-
+            Toast.makeText(ListHours.this, "Latitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_SHORT).show();
             // Optional: Stop location updates after receiving the first location
             locationManager.removeUpdates(locationListener);
         }
-
         @Override
         public void onProviderDisabled(@NonNull String provider) {}
 
@@ -159,6 +158,25 @@ public class ListHours extends AppCompatActivity {
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {}
     };
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+                // Request location updates
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            } else {
+                // Permission denied
+                Toast.makeText(this, "Location permission is required to get the current location", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     public String getCity(double lats, double lons) {
 
         Geocoder geocoder;

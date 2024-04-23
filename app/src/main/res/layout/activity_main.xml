@@ -17,7 +17,7 @@
         android:layout_width="386dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
-        android:text="sign up"
+        android:text="Sign up"
         android:textColor="@color/black"
         android:backgroundTint="#FFEB3B"
         android:layout_centerHorizontal="true"
@@ -37,7 +37,7 @@
         android:layout_centerVertical="true"
         android:backgroundTint="#FFEB3B"
 
-        android:text="log in if you have an account"
+        android:text="Log in if you have an account"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

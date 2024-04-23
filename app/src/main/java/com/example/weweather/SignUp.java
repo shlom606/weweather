@@ -52,14 +52,17 @@ public class SignUp extends AppCompatActivity {
                             Erpassword.setText("");
                             Eusername.setText("");
                             if(!password.equals(rpassword)){
-                                Toast.makeText(SignUp.this, "please repeat the password twice correctly", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUp.this, "Please repeat the password twice correctly", Toast.LENGTH_SHORT).show();
+                                Epassword.clearComposingText();
+                                Erpassword.clearComposingText();
+                                Epassword.clearComposingText();
                             }
-                            else{
+                            else {
                                 Toast.makeText(SignUp.this, "Successfuly signed up", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignUp.this, ListDays.class);
                                 startActivity(intent);
-                            }
 
+                            }
                         }
                     });
                 }

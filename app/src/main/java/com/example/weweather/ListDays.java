@@ -15,7 +15,7 @@ public class ListDays extends AppCompatActivity {
 
     Button day1,day2,day3,day4,day5,day6,day7;
 
-    String dayarray[] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday","saturday"};
+    String dayarray[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

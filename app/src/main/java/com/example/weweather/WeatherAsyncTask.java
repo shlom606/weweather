@@ -1,6 +1,8 @@
 package com.example.weweather;
 
 
+import static android.content.ContentValues.TAG;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,7 +14,7 @@ import okhttp3.Request;
 public class WeatherAsyncTask {
     private OnDataRetrievedListener mListener;
     private static final String API_KEY = "f0fda6ff26b54b21a8765838241704";  // Replaced with your WeatherAPI key
-    private String QUERY = "Rehovot";  // Example city
+    private String QUERY;  // Example city
     private static final int FORECAST_DAYS = 7;  // Number of forecast days
 
     public WeatherAsyncTask(String city, OnDataRetrievedListener listener) {
@@ -31,7 +33,7 @@ public class WeatherAsyncTask {
                         .build();
                 try (okhttp3.Response response = client.newCall(request).execute()) {
                     String jsonData = response.body().string();
-                    //Log.d(TAG,"https://api.weatherapi.com/v1/forecast.json?key="+API_KEY+"&"+"q="+QUERY+"&days="+FORECAST_DAYS);
+                    Log.d(TAG,"https://api.weatherapi.com/v1/forecast.json?key="+API_KEY+"&"+"q="+QUERY+"&days="+FORECAST_DAYS);
                     //Log.d(TAG, "API Body Response: " + jsonData);
 
                     // Notify the listener with jsonData
