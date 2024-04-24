@@ -73,6 +73,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")// For making HTTP requests
     implementation ("com.google.code.gson:gson:2.8.8")
     implementation("com.google.android.gms:play-services-maps:17.0.1")
+    implementation ("com.google.android.gms:play-services-location:19.0.0")
     implementation(libs.play.services.location)  // For JSON parsing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

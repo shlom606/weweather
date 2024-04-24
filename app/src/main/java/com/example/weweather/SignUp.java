@@ -59,7 +59,7 @@ public class SignUp extends AppCompatActivity {
                             }
                             else {
                                 Toast.makeText(SignUp.this, "Successfuly signed up", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(SignUp.this, ListDays.class);
+                                Intent intent = new Intent(SignUp.this, MapActivity.class);
                                 startActivity(intent);
 
                             }

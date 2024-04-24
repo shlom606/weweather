@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
                             Spassword= dataSnapshot.child("Users").child("username").child("password").getValue(String.class);
                             if(Susername.equals(username) && Spassword.equals(password)){
                                 Toast.makeText(Login.this, "You have successfully loged in "+Susername, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(Login.this, ListDays.class);
+                                Intent intent = new Intent(Login.this, MapActivity.class);
                                 startActivity(intent);
                             }
                         }

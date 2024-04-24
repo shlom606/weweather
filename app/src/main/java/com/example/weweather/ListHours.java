@@ -1,5 +1,7 @@
 package com.example.weweather;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +30,11 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -47,11 +54,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ListHours extends AppCompatActivity {
     ListView listhours;
     Button returnPrev;
+
+    FirebaseDatabase db;
+    DatabaseReference reference;
     private WeatherAsyncTask weatherAsyncTask;
 
     private static final String BASE_URL = "https://api.weatherapi.com/v1/";
     private static final String API_KEY = "f0fda6ff26b54b21a8765838241704";  // Replaced with your WeatherAPI key
-     String QUERY = "Rehovot";  // Example city
+    String city = "Rehovot";  // Example city
 
     //googlemaps api key: AIzaSyCAIN8WUhbR2l9AtcXzykYKP46FemN4hk4
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
@@ -65,77 +75,65 @@ public class ListHours extends AppCompatActivity {
         setContentView(R.layout.activity_list_hours);
         listhours=findViewById(R.id.ListHours);
         returnPrev=findViewById(R.id.btn_returnprev);
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        // Check for location permission
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Request location permission
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_PERMISSION);
-
-            return;
-        }
-
-        // Request location updates
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        returnPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ListHours.this, ListDays.class);
-                startActivity(intent);
-            }
-        });
-        //String subName = getIntent().getStringExtra("searchDayInData");
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference usersRef = rootRef.child("Users").child("locationDetails");
         int DayID = getIntent().getIntExtra("searchDayInData", 0);
-
-
-
-        weatherAsyncTask = new WeatherAsyncTask(QUERY,new OnDataRetrievedListener() {
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
-            public void onDataRetrieved(String jsonData) {
-                // Use jsonData here
-                // Parse JSON data using Gson or other methods
-                Gson gson = new Gson();
-                Forecast forecast = gson.fromJson(jsonData, Forecast.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                city= dataSnapshot.child("Users").child("locationDetails").child("city").getValue(String.class);
+                Toast.makeText(ListHours.this,"the city is inserted"+ city, Toast.LENGTH_SHORT).show();
 
-                List<String> timeList = new ArrayList<>();
-                List<String> temperatureList = new ArrayList<>();
-                List<String> conditionList=new ArrayList<>();
-                if (!forecast.forecastData.forecastDays.isEmpty()) {
-                    ForecastDay forecastDay = forecast.forecastData.forecastDays.get(DayID); // Get the first ForecastDay
-
-                    for (Hour hour : forecastDay.hours) {
-                        timeList.add(hour.time);
-                        temperatureList.add(String.valueOf(hour.temperatureC));
-                        conditionList.add(String.valueOf(hour.condition.text));
-                    }
-                }
-
-                // Convert List<String> to String[]
-                String[] timeArray = timeList.toArray(new String[0]);
-                String[] temperatureArray = temperatureList.toArray(new String[0]);
-                String[] conditionArray=conditionList.toArray(new String[0]);
-                String[] singleLine=new String[timeArray.length];
-                for (int i = 0; i < timeArray.length; i++) {
-                    singleLine[i]="Time: "+timeArray[i]+", The temperature: "+temperatureArray[i]+",The condition: "+conditionArray[i];
-                }
-
-                runOnUiThread(new Runnable() {
+                weatherAsyncTask = new WeatherAsyncTask(city,new OnDataRetrievedListener() {
                     @Override
-                    public void run() {
-                        //dateText.setText(Arrays.toString(timeArray));
-                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ListHours.this, R.layout.activity_listview, R.id.textView, singleLine);
-                        listhours.setAdapter(arrayAdapter);
+                    public void onDataRetrieved(String jsonData) {
+                        // Use jsonData here
+                        // Parse JSON data using Gson or other methods
+                        Gson gson = new Gson();
+                        Forecast forecast = gson.fromJson(jsonData, Forecast.class);
+
+                        List<String> timeList = new ArrayList<>();
+                        List<String> temperatureList = new ArrayList<>();
+                        List<String> conditionList=new ArrayList<>();
+                        if (!forecast.forecastData.forecastDays.isEmpty()) {
+                            ForecastDay forecastDay = forecast.forecastData.forecastDays.get(DayID); // Get the first ForecastDay
+
+                            for (Hour hour : forecastDay.hours) {
+                                timeList.add(hour.time);
+                                temperatureList.add(String.valueOf(hour.temperatureC));
+                                conditionList.add(String.valueOf(hour.condition.text));
+                            }
+                        }
+
+                        // Convert List<String> to String[]
+                        String[] timeArray = timeList.toArray(new String[0]);
+                        String[] temperatureArray = temperatureList.toArray(new String[0]);
+                        String[] conditionArray=conditionList.toArray(new String[0]);
+                        String[] singleLine=new String[timeArray.length];
+                        for (int i = 0; i < timeArray.length; i++) {
+                            singleLine[i]="Time: "+timeArray[i]+", The temperature: "+temperatureArray[i]+",The condition: "+conditionArray[i];
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //dateText.setText(Arrays.toString(timeArray));
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ListHours.this, R.layout.activity_listview, R.id.textView, singleLine);
+                                listhours.setAdapter(arrayAdapter);
+                            }
+                        });
+
                     }
                 });
-
+                weatherAsyncTask.execute();
             }
-        });
-        weatherAsyncTask.execute();
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+            }
+        };
+        rootRef.addListenerForSingleValueEvent(valueEventListener);
     }
     private final LocationListener locationListener = new LocationListener() {
         @Override
@@ -143,8 +141,7 @@ public class ListHours extends AppCompatActivity {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
 
-            // Update UI with latitude and longitude
-            QUERY=getCity(latitude,longitude);
+
             Toast.makeText(ListHours.this, "Latitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_SHORT).show();
             // Optional: Stop location updates after receiving the first location
             locationManager.removeUpdates(locationListener);
@@ -177,27 +174,5 @@ public class ListHours extends AppCompatActivity {
             }
         }
     }
-    public String getCity(double lats, double lons) {
-
-        Geocoder geocoder;
-        double lat = lats;
-        double lon = lons;
-        geocoder = new Geocoder(ListHours.this, Locale.getDefault());
-        List<android.location.Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocation(lat, lon, 1);
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-
-        if (addresses != null) {
-            String city = addresses.get(0).getLocality();
-            return city;
-        } else {
-            return "failed";
-        }
-    }
-
 
 }
