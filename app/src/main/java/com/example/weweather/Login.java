@@ -25,7 +25,8 @@ public class Login extends AppCompatActivity {
     EditText Epassword,Eusername;
     Button Blogin;
     FirebaseDatabase db;
-    DatabaseReference reference;
+    DatabaseReference reference,trackref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,8 @@ public class Login extends AppCompatActivity {
         Epassword=findViewById(R.id.Password);
         Eusername=findViewById(R.id.Username);
         Blogin=findViewById(R.id.btn_login);
+
         DatabaseReference rootRef = db.getInstance().getReference();
-        DatabaseReference usersRef = rootRef.child("Users");
-        DatabaseReference data = usersRef.child("username");
         Blogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,12 +49,12 @@ public class Login extends AppCompatActivity {
                     ValueEventListener valueEventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            Susername= dataSnapshot.child("Users").child("username").child("username").getValue(String.class);
-                            Spassword= dataSnapshot.child("Users").child("username").child("password").getValue(String.class);
-                            if(Susername.equals(username) && Spassword.equals(password)){
+                            Susername= dataSnapshot.child("Users").child(username).child("username").getValue(String.class);
+                            Spassword= dataSnapshot.child("Users").child(username).child("password").getValue(String.class);
+                            if(Susername.equals(username) && Spassword.equals(password) && Spassword!=null && Susername!=null){
                                 Toast.makeText(Login.this, "You have successfully loged in "+Susername, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Login.this, MapActivity.class);
+                                intent.putExtra("searchUsernameInData", username);
                                 startActivity(intent);
                             }
                         }

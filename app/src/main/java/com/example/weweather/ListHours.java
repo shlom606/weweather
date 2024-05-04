@@ -56,35 +56,33 @@ public class ListHours extends AppCompatActivity {
     Button returnPrev;
 
     FirebaseDatabase db;
-    DatabaseReference reference;
+
     private WeatherAsyncTask weatherAsyncTask;
 
-    private static final String BASE_URL = "https://api.weatherapi.com/v1/";
-    private static final String API_KEY = "f0fda6ff26b54b21a8765838241704";  // Replaced with your WeatherAPI key
-    String city = "Rehovot";  // Example city
+    String city = "Rehovot",username;  // Example City
 
     //googlemaps api key: AIzaSyCAIN8WUhbR2l9AtcXzykYKP46FemN4hk4
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
-    private LocationManager locationManager;
 
-    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_hours);
-        listhours=findViewById(R.id.ListHours);
-        returnPrev=findViewById(R.id.btn_returnprev);
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference usersRef = rootRef.child("Users").child("locationDetails");
-        int DayID = getIntent().getIntExtra("searchDayInData", 0);
+        listhours = findViewById(R.id.ListHours);
+        returnPrev = findViewById(R.id.btn_returnprev);
+        DatabaseReference rootRef = db.getInstance().getReference();
+        DatabaseReference reference = rootRef.child("Users");
+        int DayID = getIntent().getExtras().getInt("searchDayInData", 0);
+
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                city= dataSnapshot.child("Users").child("locationDetails").child("city").getValue(String.class);
-                Toast.makeText(ListHours.this,"the city is inserted"+ city, Toast.LENGTH_SHORT).show();
+                String username= getIntent().getExtras().getString("searchUsernameInData");
+                Toast.makeText(ListHours.this, "The user is: " + username, Toast.LENGTH_SHORT).show();
+                city = dataSnapshot.child("Users").child(username).child("location details").child("city").getValue(String.class);
+                Toast.makeText(ListHours.this, "The city is inserted: " + city, Toast.LENGTH_SHORT).show();
 
-                weatherAsyncTask = new WeatherAsyncTask(city,new OnDataRetrievedListener() {
+                weatherAsyncTask = new WeatherAsyncTask(city, new OnDataRetrievedListener() {
                     @Override
                     public void onDataRetrieved(String jsonData) {
                         // Use jsonData here
@@ -94,7 +92,7 @@ public class ListHours extends AppCompatActivity {
 
                         List<String> timeList = new ArrayList<>();
                         List<String> temperatureList = new ArrayList<>();
-                        List<String> conditionList=new ArrayList<>();
+                        List<String> conditionList = new ArrayList<>();
                         if (!forecast.forecastData.forecastDays.isEmpty()) {
                             ForecastDay forecastDay = forecast.forecastData.forecastDays.get(DayID); // Get the first ForecastDay
 
@@ -108,10 +106,10 @@ public class ListHours extends AppCompatActivity {
                         // Convert List<String> to String[]
                         String[] timeArray = timeList.toArray(new String[0]);
                         String[] temperatureArray = temperatureList.toArray(new String[0]);
-                        String[] conditionArray=conditionList.toArray(new String[0]);
-                        String[] singleLine=new String[timeArray.length];
+                        String[] conditionArray = conditionList.toArray(new String[0]);
+                        String[] singleLine = new String[timeArray.length];
                         for (int i = 0; i < timeArray.length; i++) {
-                            singleLine[i]="Time: "+timeArray[i]+", The temperature: "+temperatureArray[i]+",The condition: "+conditionArray[i];
+                            singleLine[i] = "Time: " + timeArray[i] + "\n The temperature: " + temperatureArray[i] + "\n The condition: " + conditionArray[i];
                         }
 
                         runOnUiThread(new Runnable() {
@@ -134,45 +132,45 @@ public class ListHours extends AppCompatActivity {
             }
         };
         rootRef.addListenerForSingleValueEvent(valueEventListener);
+//    }
+//    private final LocationListener locationListener = new LocationListener() {
+//        @Override
+//        public void onLocationChanged(@NonNull Location location) {
+//            double latitude = location.getLatitude();
+//            double longitude = location.getLongitude();
+//
+//
+//            Toast.makeText(ListHours.this, "Latitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_SHORT).show();
+//            // Optional: Stop location updates after receiving the first location
+//            locationManager.removeUpdates(locationListener);
+//        }
+//        @Override
+//        public void onProviderDisabled(@NonNull String provider) {}
+//
+//        @Override
+//        public void onProviderEnabled(@NonNull String provider) {}
+//
+//        @Override
+//        public void onStatusChanged(String provider, int status, Bundle extras) {}
+//    };
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Permission granted
+//                // Request location updates
+//                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED
+//                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//                    return;
+//                }
+//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+//            } else {
+//                // Permission denied
+//                Toast.makeText(this, "Location permission is required to get the current location", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
     }
-    private final LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-
-
-            Toast.makeText(ListHours.this, "Latitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_SHORT).show();
-            // Optional: Stop location updates after receiving the first location
-            locationManager.removeUpdates(locationListener);
-        }
-        @Override
-        public void onProviderDisabled(@NonNull String provider) {}
-
-        @Override
-        public void onProviderEnabled(@NonNull String provider) {}
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-    };
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted
-                // Request location updates
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            } else {
-                // Permission denied
-                Toast.makeText(this, "Location permission is required to get the current location", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
 }

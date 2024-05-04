@@ -20,7 +20,9 @@ public class SignUp extends AppCompatActivity {
     EditText Epassword,Erpassword,Eusername;
     Button Bsignup;
     FirebaseDatabase db;
-    DatabaseReference reference;
+    DatabaseReference reference,trackref;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,8 @@ public class SignUp extends AppCompatActivity {
                 password= Epassword.getText().toString();
                 rpassword = Erpassword.getText().toString();
                 username = Eusername.getText().toString();
+                db = FirebaseDatabase.getInstance();
+
 
                 Toast.makeText(SignUp.this, username, Toast.LENGTH_SHORT).show();
 
@@ -44,7 +48,8 @@ public class SignUp extends AppCompatActivity {
                     User users = new User(password, rpassword, username);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");
-                    reference.child("username").setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    reference.child(username).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
@@ -60,11 +65,12 @@ public class SignUp extends AppCompatActivity {
                             else {
                                 Toast.makeText(SignUp.this, "Successfuly signed up", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignUp.this, MapActivity.class);
+                                intent.putExtra("searchUsernameInData", username);
                                 startActivity(intent);
-
                             }
                         }
                     });
+
                 }
             }
         });
