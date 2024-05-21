@@ -53,15 +53,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListHours extends AppCompatActivity {
     ListView listhours;
-    Button returnPrev;
+
+    TextView displayCity;
 
     FirebaseDatabase db;
 
     private WeatherAsyncTask weatherAsyncTask;
 
-    String city = "Rehovot",username;  // Example City
+    String city;  // Example City
 
-    //googlemaps api key: AIzaSyCAIN8WUhbR2l9AtcXzykYKP46FemN4hk4
+    Button prevscreen,mainscreen;
 
 
     @Override
@@ -69,7 +70,25 @@ public class ListHours extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_hours);
         listhours = findViewById(R.id.ListHours);
-        returnPrev = findViewById(R.id.btn_returnprev);
+        displayCity=findViewById(R.id.CityDisplay);
+        prevscreen=findViewById(R.id.btn_prevScreen);
+        mainscreen=findViewById(R.id.btn_mainScreen);
+        String username= getIntent().getExtras().getString("searchUsernameInData");
+        prevscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ListHours.this, ListDays.class);
+                intent.putExtra("searchUsernameInData",username);
+                startActivity(intent);
+            }
+        });
+        mainscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ListHours.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         DatabaseReference rootRef = db.getInstance().getReference();
         DatabaseReference reference = rootRef.child("Users");
         int DayID = getIntent().getExtras().getInt("searchDayInData", 0);
@@ -78,8 +97,8 @@ public class ListHours extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String username= getIntent().getExtras().getString("searchUsernameInData");
-                Toast.makeText(ListHours.this, "The user is: " + username, Toast.LENGTH_SHORT).show();
                 city = dataSnapshot.child("Users").child(username).child("location details").child("city").getValue(String.class);
+                displayCity.setText("The weather in:"+city);
                 Toast.makeText(ListHours.this, "The city is inserted: " + city, Toast.LENGTH_SHORT).show();
 
                 weatherAsyncTask = new WeatherAsyncTask(city, new OnDataRetrievedListener() {

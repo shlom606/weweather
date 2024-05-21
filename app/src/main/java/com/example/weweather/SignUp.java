@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignUp extends AppCompatActivity {
     String password,rpassword,username;
     EditText Epassword,Erpassword,Eusername;
-    Button Bsignup;
+    Button Bsignup,Bmainscreen;
     FirebaseDatabase db;
     DatabaseReference reference,trackref;
 
@@ -32,6 +32,14 @@ public class SignUp extends AppCompatActivity {
         Erpassword=findViewById(R.id.Rpassword);
         Eusername=findViewById(R.id.Username);
         Bsignup =findViewById(R.id.btn_sign);
+        Bmainscreen=findViewById(R.id.btn_mainscreen);
+        Bmainscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         Bsignup.setOnClickListener(new View.OnClickListener() {
 
             @Override

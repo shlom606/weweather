@@ -5,20 +5,47 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@android:color/holo_blue_bright"
     tools:context=".ListHours">
 
-    <Button
-        android:id="@+id/btn_returnprev"
-        android:layout_width="386dp"
-        android:layout_height="60dp"
+    <TextView
+        android:id="@+id/CityDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:text="return to list of days"
+        android:backgroundTint="#FFEB3B"
+        android:text=""
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#000FF0" />
+    <Button
+        android:id="@+id/btn_prevScreen"
+        android:layout_width="386dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/CityDisplay"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#FFEB3B"
+        android:text="Return to previous screen"
         android:textColor="@color/black"
-        android:backgroundTint="#FFEB3B" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btn_mainScreen"
+        android:layout_width="386dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/btn_prevScreen"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#FFEB3B"
+        android:text="Return to main screen"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <ListView
         android:id="@+id/ListHours"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="180dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context="abhiandroid.com.listexample.MainActivity"
@@ -29,71 +56,5 @@
 
     </ListView>
 
-<!--    <TextView-->
-
-<!--        android:id="@+id/currentLocationTextView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="18sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:text="Location: New York, USA" />-->
-
-<!--    <TextView-->
-<!--        android:layout_below="@+id/currentLocationTextView"-->
-<!--        android:id="@+id/currentConditionTextView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="16sp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:text="Condition: Sunny" />-->
-
-<!--    &lt;!&ndash; Forecast Section &ndash;&gt;-->
-<!--    <TextView-->
-
-<!--        android:id="@+id/dateTextView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="18sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:layout_below="@+id/currentConditionTextView"-->
-<!--        android:text="Date: " />-->
-
-<!--    <TextView-->
-<!--        android:layout_below="@+id/dateTextView"-->
-<!--        android:id="@+id/avgTempTextView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="16sp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:text="Avg Temp: " />-->
-
-<!--    <TextView-->
-<!--        android:layout_below="@+id/avgTempTextView"-->
-<!--        android:id="@+id/maxTempTextView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="16sp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:text="Max Temp: " />-->
-
-<!--    <TextView-->
-<!--        android:layout_below="@+id/maxTempTextView"-->
-<!--        android:id="@+id/minTempTextView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="16sp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:text="Min Temp: " />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/avgHumidityTextView"-->
-<!--        android:layout_width="391dp"-->
-<!--        android:layout_height="437dp"-->
-<!--        android:layout_below="@+id/minTempTextView"-->
-<!--        android:layout_marginBottom="16dp"-->
-<!--        android:text="Avg Humidity: "-->
-<!--        android:textSize="16sp" />-->
 
 </RelativeLayout>

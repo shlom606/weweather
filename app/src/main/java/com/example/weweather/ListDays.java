@@ -20,9 +20,10 @@ import java.util.TimeZone;
 
 public class ListDays extends AppCompatActivity {
 
-    Button day1,day2,day3,day4,day5,day6,day7,history;
+    Button day1,day2,day3,day4,day5,day6,day7,history,prevscreen,mainscreen;
 
     String dayarray[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"};
+
 
     FirebaseDatabase db;
     DatabaseReference reference;
@@ -38,6 +39,8 @@ public class ListDays extends AppCompatActivity {
         day6=findViewById(R.id.btn_day6);
         day7=findViewById(R.id.btn_day7);
         history=findViewById(R.id.btn_history);
+        prevscreen=findViewById(R.id.btn_prevScreen);
+        mainscreen=findViewById(R.id.btn_mainScreen);
         Button[] btndays= {day1,day2,day3,day4,day5,day6,day7};
         Calendar localCalendar = Calendar.getInstance(TimeZone.getDefault());
         String username= getIntent().getExtras().getString("searchUsernameInData");
@@ -52,6 +55,22 @@ public class ListDays extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ListDays.this, HistoryActivity.class);
                 intent.putExtra("searchUsernameInData",username);
+                startActivity(intent);
+            }
+        });
+
+        prevscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ListDays.this, MapActivity.class);
+                intent.putExtra("searchUsernameInData",username);
+                startActivity(intent);
+            }
+        });
+        mainscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ListDays.this, MainActivity.class);
                 startActivity(intent);
             }
         });

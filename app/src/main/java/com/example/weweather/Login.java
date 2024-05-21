@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
 
     String password,username,Susername,Spassword;
     EditText Epassword,Eusername;
-    Button Blogin;
+    Button Blogin,Bmainscreen;
     FirebaseDatabase db;
     DatabaseReference reference,trackref;
 
@@ -35,7 +35,14 @@ public class Login extends AppCompatActivity {
         Epassword=findViewById(R.id.Password);
         Eusername=findViewById(R.id.Username);
         Blogin=findViewById(R.id.btn_login);
-
+        Bmainscreen=findViewById(R.id.btn_mainscreen);
+        Bmainscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         DatabaseReference rootRef = db.getInstance().getReference();
         Blogin.setOnClickListener(new View.OnClickListener() {
             @Override
