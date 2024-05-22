@@ -22,7 +22,7 @@ public class ListDays extends AppCompatActivity {
 
     Button day1,day2,day3,day4,day5,day6,day7,history,prevscreen,mainscreen;
 
-    String dayarray[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"};
+    String dayarray[] = {"Sunday's weather", "Monday's weather", "Tuesday's weather", "Wednesday's weather", "Thursday's weather", "Friday's weather","Saturday's weather"};
 
 
     FirebaseDatabase db;
@@ -90,7 +90,8 @@ public class ListDays extends AppCompatActivity {
                 Intent intent = new Intent(ListDays.this, ListHours.class);
                 intent.putExtra("searchDayInData", id);
                 intent.putExtra("searchUsernameInData",username);
-                //intent.putExtra("instituteId", 22);
+                intent.putExtra("searchStringDay",dayarray[id]);
+
                 startActivity(intent);
             }
         });

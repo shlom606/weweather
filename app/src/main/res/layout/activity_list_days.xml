@@ -12,10 +12,10 @@
     <TextView
         android:layout_width="386dp"
         android:layout_height="60dp"
-        android:text="Choose day of weather"
+        android:text="Choose a day of forecast or check your location history"
         android:textStyle="bold"
         android:backgroundTint="#FFEB3B"
-        android:textSize="35dp"
+        android:textSize="20dp"
         android:textColor="#2E8B57"
         ></TextView>
     <Button
@@ -135,7 +135,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:backgroundTint="#FFEB3B"
-        android:text="Return to prev screen"
+        android:text="Return to the previous screen"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +148,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:backgroundTint="#FFEB3B"
-        android:text="Return to main screen"
+        android:text="Return to the main screen"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

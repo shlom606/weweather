@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -82,9 +84,11 @@ public class ListHours extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         mainscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(ListHours.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -97,8 +101,9 @@ public class ListHours extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String username= getIntent().getExtras().getString("searchUsernameInData");
+                String stringday= getIntent().getExtras().getString("searchStringDay");
                 city = dataSnapshot.child("Users").child(username).child("location details").child("city").getValue(String.class);
-                displayCity.setText("The weather in:"+city);
+                displayCity.setText(stringday+" in: "+city);
                 Toast.makeText(ListHours.this, "The city is inserted: " + city, Toast.LENGTH_SHORT).show();
 
                 weatherAsyncTask = new WeatherAsyncTask(city, new OnDataRetrievedListener() {
@@ -151,45 +156,5 @@ public class ListHours extends AppCompatActivity {
             }
         };
         rootRef.addListenerForSingleValueEvent(valueEventListener);
-//    }
-//    private final LocationListener locationListener = new LocationListener() {
-//        @Override
-//        public void onLocationChanged(@NonNull Location location) {
-//            double latitude = location.getLatitude();
-//            double longitude = location.getLongitude();
-//
-//
-//            Toast.makeText(ListHours.this, "Latitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_SHORT).show();
-//            // Optional: Stop location updates after receiving the first location
-//            locationManager.removeUpdates(locationListener);
-//        }
-//        @Override
-//        public void onProviderDisabled(@NonNull String provider) {}
-//
-//        @Override
-//        public void onProviderEnabled(@NonNull String provider) {}
-//
-//        @Override
-//        public void onStatusChanged(String provider, int status, Bundle extras) {}
-//    };
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // Permission granted
-//                // Request location updates
-//                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                        != PackageManager.PERMISSION_GRANTED
-//                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//                    return;
-//                }
-//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-//            } else {
-//                // Permission denied
-//                Toast.makeText(this, "Location permission is required to get the current location", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
     }
 }

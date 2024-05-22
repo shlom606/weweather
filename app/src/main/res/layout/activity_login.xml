@@ -18,7 +18,7 @@
             android:id="@+id/tvReg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="40dp"
             android:text="Log in screen"
             android:textColor="#FFAA00"
             android:textSize="35dp"
@@ -63,7 +63,7 @@
             android:layout_width="386dp"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="62dp"
+            android:layout_marginTop="40dp"
             android:backgroundTint="#FFEB3B"
             android:text="Log in"
             android:textColor="@color/black"
@@ -76,13 +76,22 @@
             android:layout_width="386dp"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="62dp"
+            android:layout_marginTop="10dp"
             android:backgroundTint="#FFEB3B"
             android:text="return to main screen"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="204dp"
+            android:layout_height="173dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/weweatherlogo"></ImageView>
 
 
     </LinearLayout>

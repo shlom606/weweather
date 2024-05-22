@@ -5,13 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@android:color/holo_blue_bright"
     tools:context=".MainActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="318dp"
-        android:background="@drawable/logo"></ImageView>
+        android:background="@drawable/weweatherlogo"></ImageView>
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="386dp"
@@ -36,7 +36,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:backgroundTint="#FFEB3B"
-
         android:text="Log in if you have an account"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
