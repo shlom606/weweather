@@ -20,7 +20,7 @@ public class SignUp extends AppCompatActivity {
     EditText Epassword,Erpassword,Eusername;
     Button Bsignup,Bmainscreen;
     FirebaseDatabase db;
-    DatabaseReference reference,trackref;
+    DatabaseReference reference;
 
 
     @Override
@@ -52,33 +52,37 @@ public class SignUp extends AppCompatActivity {
 
                 Toast.makeText(SignUp.this, username, Toast.LENGTH_SHORT).show();
 
-                if (!password.isEmpty() && !rpassword.isEmpty() && !username.isEmpty() ) {
-                    User users = new User(password, rpassword, username);
-                    db = FirebaseDatabase.getInstance();
-                    reference = db.getReference("Users");
+                if (!password.isEmpty() && !rpassword.isEmpty() && !username.isEmpty()) {
+                    if(!password.equals(rpassword)){
+                        Toast.makeText(SignUp.this, "Please repeat the password twice correctly", Toast.LENGTH_SHORT).show();
+                        Epassword.setText("");
+                        Erpassword.setText("");
+                        Eusername.setText("");
+                    }
+                    else{
+                        User users = new User(password, rpassword, username);
+                        db = FirebaseDatabase.getInstance();
+                        reference = db.getReference("Users");
 
-                    reference.child(username).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        reference.child(username).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
 
-                            Epassword.setText("");
-                            Erpassword.setText("");
-                            Eusername.setText("");
-                            if(!password.equals(rpassword)){
-                                Toast.makeText(SignUp.this, "Please repeat the password twice correctly", Toast.LENGTH_SHORT).show();
-                                Epassword.clearComposingText();
-                                Erpassword.clearComposingText();
-                                Epassword.clearComposingText();
-                            }
-                            else {
                                 Toast.makeText(SignUp.this, "Successfuly signed up", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignUp.this, MapActivity.class);
                                 intent.putExtra("searchUsernameInData", username);
                                 startActivity(intent);
-                            }
-                        }
-                    });
 
+                            }
+                        });
+                    }
+
+                }
+                else{
+                    Epassword.setText("");
+                    Erpassword.setText("");
+                    Eusername.setText("");
+                    Toast.makeText(SignUp.this, "Please put your information in", Toast.LENGTH_SHORT).show();
                 }
             }
         });

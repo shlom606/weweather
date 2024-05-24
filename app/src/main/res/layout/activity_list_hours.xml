@@ -49,12 +49,11 @@
     <ListView
         android:id="@+id/ListHours"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="180dp"
         android:divider="#FFFF00"
         android:dividerHeight="5dp"
         android:listSelector="#00FFFF"
-        tools:context="abhiandroid.com.listexample.MainActivity">
-    </ListView>
+        tools:context="abhiandroid.com.listexample.MainActivity"></ListView>
 
 </RelativeLayout>
