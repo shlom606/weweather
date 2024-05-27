@@ -1,7 +1,7 @@
 package com.example.weweather;
 
 public class User {
-    String password,rpassword,username;
+    private String password,rpassword,username;
 
     public User(String password, String rpassword, String username) {
 

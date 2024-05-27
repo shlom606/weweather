@@ -50,8 +50,8 @@ public class Login extends AppCompatActivity {
                 password= Epassword.getText().toString();
                 username = Eusername.getText().toString();
                 if(password.isEmpty() && username.isEmpty()){
-                    Epassword.clearComposingText();
-                    Epassword.clearComposingText();
+                    Epassword.setText("");
+                    Eusername.setText("");
                     Toast.makeText(Login.this, "Please put your information in", Toast.LENGTH_SHORT).show();
                 }
                 else {

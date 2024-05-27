@@ -14,7 +14,7 @@ import okhttp3.Request;
 public class WeatherAsyncTask {
     private OnDataRetrievedListener mListener;
     private static final String API_KEY = "f0fda6ff26b54b21a8765838241704";  // Replaced with your WeatherAPI key
-    private String QUERY;  // Example City
+    private String QUERY;
     private static final int FORECAST_DAYS = 7;  // Number of forecast days
 
     public WeatherAsyncTask(String city, OnDataRetrievedListener listener) {

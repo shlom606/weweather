@@ -90,8 +90,6 @@ public class ListDays extends AppCompatActivity {
                 Intent intent = new Intent(ListDays.this, ListHours.class);
                 intent.putExtra("searchDayInData", id);
                 intent.putExtra("searchUsernameInData",username);
-                intent.putExtra("searchStringDay",dayarray[id]);
-
                 startActivity(intent);
             }
         });
