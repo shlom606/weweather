@@ -52,8 +52,8 @@ public class SignUp extends AppCompatActivity {
 
                 Toast.makeText(SignUp.this, username, Toast.LENGTH_SHORT).show();
 
-                if (!password.isEmpty() && !rpassword.isEmpty() && !username.isEmpty()) {
-                    if(!password.equals(rpassword)){
+                if (!password.isEmpty() && !rpassword.isEmpty() && !username.isEmpty()) {//checks if the input of the user is not empty
+                    if(!password.equals(rpassword)){//if the repeat password isn't the same as the password than tell it to the user
                         Toast.makeText(SignUp.this, "Please repeat the password twice correctly", Toast.LENGTH_SHORT).show();
                         Epassword.setText("");
                         Erpassword.setText("");
@@ -64,7 +64,7 @@ public class SignUp extends AppCompatActivity {
                         db = FirebaseDatabase.getInstance();
                         reference = db.getReference("Users");
 
-                        reference.child(username).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        reference.child(username).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {//when the user is added to firebase continue to next screen
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
@@ -78,7 +78,7 @@ public class SignUp extends AppCompatActivity {
                     }
 
                 }
-                else{
+                else{// if the input is empty than clear the edittexts and ask for his information
                     Epassword.setText("");
                     Erpassword.setText("");
                     Eusername.setText("");

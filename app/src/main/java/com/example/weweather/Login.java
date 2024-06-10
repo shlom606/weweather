@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity {
         Eusername=findViewById(R.id.Username);
         Blogin=findViewById(R.id.btn_login);
         Bmainscreen=findViewById(R.id.btn_mainscreen);
-        Bmainscreen.setOnClickListener(new View.OnClickListener() {
+        Bmainscreen.setOnClickListener(new View.OnClickListener() {//returns to the main screen
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Login.this, MainActivity.class);
@@ -47,20 +47,20 @@ public class Login extends AppCompatActivity {
         Blogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                password= Epassword.getText().toString();
-                username = Eusername.getText().toString();
-                if(password.isEmpty() && username.isEmpty()){
+                password= Epassword.getText().toString();// gets the input from edit text
+                username = Eusername.getText().toString();// gets the input from edit text
+                if(password.isEmpty() && username.isEmpty()){//checks if the edit texts are empty
                     Epassword.setText("");
                     Eusername.setText("");
                     Toast.makeText(Login.this, "Please put your information in", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    ValueEventListener valueEventListener = new ValueEventListener() {
+                    ValueEventListener valueEventListener = new ValueEventListener() {//the action goes through the firebase database and checks corresponding data
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Susername= dataSnapshot.child("Users").child(username).child("username").getValue(String.class);
-                            Spassword= dataSnapshot.child("Users").child(username).child("password").getValue(String.class);
-                            if(Susername.equals(username) && Spassword.equals(password) && Spassword!=null && Susername!=null){
+                            Susername= dataSnapshot.child("Users").child(username).child("username").getValue(String.class);//checks username input
+                            Spassword= dataSnapshot.child("Users").child(username).child("password").getValue(String.class);//checks password input
+                            if(Susername.equals(username) && Spassword.equals(password) && Spassword!=null && Susername!=null){//checks a successful log in
                                 Toast.makeText(Login.this, "You have successfully loged in "+Susername, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Login.this, MapActivity.class);
                                 intent.putExtra("searchUsernameInData", username);

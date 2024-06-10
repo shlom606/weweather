@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        login=findViewById(R.id.btn_login);
-        signin=findViewById(R.id.btn_signup);
+        login=findViewById(R.id.btn_login);//button for log in
+        signin=findViewById(R.id.btn_signup);// button for log in
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

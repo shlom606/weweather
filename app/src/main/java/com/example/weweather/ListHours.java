@@ -55,18 +55,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListHours extends AppCompatActivity {
     ListView listhours;
-
     TextView displayCity;
-
     FirebaseDatabase db;
-
     private WeatherAsyncTask weatherAsyncTask;
-
-    String city;  // Example City
-
+    String city;
     Button prevscreen,mainscreen;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,27 +77,24 @@ public class ListHours extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         mainscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(ListHours.this, MainActivity.class);
                 startActivity(intent);
             }
         });
         DatabaseReference rootRef = db.getInstance().getReference();
         DatabaseReference reference = rootRef.child("Users");
-        int DayID = getIntent().getExtras().getInt("searchDayInData", 0);
-
+        int DayID = getIntent().getExtras().getInt("searchDayInData", 0);// gets the id of the day
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String username= getIntent().getExtras().getString("searchUsernameInData");
                 String stringday= getIntent().getExtras().getString("searchStringDay");
                 city = dataSnapshot.child("Users").child(username).child("location details").child("city").getValue(String.class);
-                displayCity.setText(stringday+" in: "+city);
-                Toast.makeText(ListHours.this, "The city is inserted: " + city, Toast.LENGTH_SHORT).show();
+                displayCity.setText(stringday+" in: "+city);// presents in text view the day entered and the city entered
+                Toast.makeText(ListHours.this, "The city is inserted: " + city, Toast.LENGTH_SHORT).show();// presents a toast of the city
 
                 weatherAsyncTask = new WeatherAsyncTask(city, new OnDataRetrievedListener() {
                     @Override
@@ -112,42 +102,36 @@ public class ListHours extends AppCompatActivity {
                         // Use jsonData here
                         // Parse JSON data using Gson or other methods
                         Gson gson = new Gson();
-                        Forecast forecast = gson.fromJson(jsonData, Forecast.class);
-
+                        Forecast forecast = gson.fromJson(jsonData, Forecast.class);//parsing from string to Forecast
                         List<String> timeList = new ArrayList<>();
                         List<String> temperatureList = new ArrayList<>();
                         List<String> conditionList = new ArrayList<>();
-                        if (!forecast.forecastData.forecastDays.isEmpty()) {
-                            ForecastDay forecastDay = forecast.forecastData.forecastDays.get(DayID); // Get the first ForecastDay
-
-                            for (Hour hour : forecastDay.hours) {
-                                timeList.add(hour.time);
+                        if (!forecast.forecastData.forecastDays.isEmpty()) {//if the data isn't empty
+                            ForecastDay forecastDay = forecast.forecastData.forecastDays.get(DayID); // Get the ForecastDay corresponding with the day entered previously
+                            for (Hour hour : forecastDay.hours) {// for each hour in the list of hours within the current day, there are 23 hours
+                                timeList.add(hour.time);//add the time to details to list of them set before
                                 temperatureList.add(String.valueOf(hour.temperatureC));
                                 conditionList.add(String.valueOf(hour.condition.text));
                             }
                         }
-
                         // Convert List<String> to String[]
                         String[] timeArray = timeList.toArray(new String[0]);
                         String[] temperatureArray = temperatureList.toArray(new String[0]);
                         String[] conditionArray = conditionList.toArray(new String[0]);
                         String[] singleLine = new String[timeArray.length];
-                        for (int i = 0; i < timeArray.length; i++) {
+                        for (int i = 0; i < timeArray.length; i++) {// a for loop to contain all details in a single array
                             singleLine[i] = "Time: " + timeArray[i] + "\n The temperature: " + temperatureArray[i] + "\n The condition: " + conditionArray[i];
                         }
-
-                        runOnUiThread(new Runnable() {
+                        runOnUiThread(new Runnable() {//runonui to presents the data to the user using listview and adapter
                             @Override
                             public void run() {
-                                //dateText.setText(Arrays.toString(timeArray));
                                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ListHours.this, R.layout.activity_listview, R.id.textView, singleLine);
                                 listhours.setAdapter(arrayAdapter);
                             }
                         });
-
                     }
                 });
-                weatherAsyncTask.execute();
+                weatherAsyncTask.execute();// the asynch task executes during the run using an asynch task
             }
 
             @Override

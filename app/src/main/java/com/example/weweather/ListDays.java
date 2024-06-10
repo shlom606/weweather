@@ -21,10 +21,7 @@ import java.util.TimeZone;
 public class ListDays extends AppCompatActivity {
 
     Button day1,day2,day3,day4,day5,day6,day7,history,prevscreen,mainscreen;
-
     String dayarray[] = {"Sunday's weather", "Monday's weather", "Tuesday's weather", "Wednesday's weather", "Thursday's weather", "Friday's weather","Saturday's weather"};
-
-
     FirebaseDatabase db;
     DatabaseReference reference;
     @Override
@@ -46,7 +43,7 @@ public class ListDays extends AppCompatActivity {
         String username= getIntent().getExtras().getString("searchUsernameInData");
 
         int currentDayOfWeek = localCalendar.get(Calendar.DAY_OF_WEEK);
-        for (int i = 0; i < btndays.length; i++) {
+        for (int i = 0; i < btndays.length; i++) {// a for loop for each of the days buttons
             btndays[i].setText(writeDay(currentDayOfWeek+i,dayarray));
             SaveDay(btndays[i],i,username);
         }
@@ -76,14 +73,14 @@ public class ListDays extends AppCompatActivity {
         });
 
     }
-    public String writeDay(int day,String[] arrayDays){
+    public String writeDay(int day,String[] arrayDays){// the day of the week is an int 0-7 so in the for loop the function could get numbers higher than 7
         if(day>7){
-            return arrayDays[day-8];// another -1 to be in the index of array 0-6
+            return arrayDays[day-8];//in order for the index to be within the limits of the array
         }
         else
-            return arrayDays[day-1];
+            return arrayDays[day-1];// another -1 to be in the index of array 0-6
     }
-    public void SaveDay(Button button,int id,String username){
+    public void SaveDay(Button button,int id,String username){// for each of the days buttons it will move the user to next activity with the id of the day and username
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
